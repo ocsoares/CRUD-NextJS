@@ -1,12 +1,13 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Typography } from "@mui/material";
 import { UserAvatar } from "./UserAvatar";
-import { Person } from "@mui/icons-material";
+import { Menu, Person } from "@mui/icons-material";
 
 interface IUserInfoProps {
   text: string;
+  onClick: () => void;
 }
 
-export function UserInfo({ text }: IUserInfoProps) {
+export function UserInfo({ text, onClick }: IUserInfoProps) {
   return (
     <>
       <Box
@@ -16,6 +17,9 @@ export function UserInfo({ text }: IUserInfoProps) {
         }}
       >
         <UserAvatar avatar={<Person />} text={text} bgcolor="#812160" />
+        <IconButton onClick={onClick}>
+          <Menu />
+        </IconButton>
       </Box>
       <Divider
         orientation="horizontal"
