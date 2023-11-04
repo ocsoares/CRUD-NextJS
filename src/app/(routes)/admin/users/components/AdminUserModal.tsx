@@ -23,8 +23,8 @@ export function AdminUserModal({
 
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
+      aria-labelledby="admin-user-modal-title"
+      aria-describedby="admin-user-modal-description"
       open={isModalOpen}
       onClose={handleCloseModal}
       closeAfterTransition
@@ -38,13 +38,13 @@ export function AdminUserModal({
       <Fade in={isModalOpen}>
         <Box sx={modalStyle}>
           <Typography
-            id="transition-modal-title"
+            id="admin-user-modal-title"
             variant="h6"
             textAlign={"center"}
           >
             Administrar usuário
           </Typography>
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+          <Typography id="admin-user-modal-description" sx={{ mt: 2 }}>
             Colocar botões para acionar ações sob o usuário, como deletar,
             alterar e etc...
           </Typography>
