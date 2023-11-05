@@ -10,15 +10,10 @@ interface IUserInfoProps {
 export function UserInfo({ text, onClick }: IUserInfoProps) {
   return (
     <>
-      <Box
-        sx={{
-          mt: 6,
-          marginRight: 60,
-        }}
-      >
+      <Box display={"flex"} flexDirection={"row"} gap={60} marginTop={6}>
         <UserAvatar avatar={<Person />} text={text} bgcolor="#812160" />
-        <IconButton onClick={onClick}>
-          <Menu />
+        <IconButton onClick={onClick} sx={{ mt: 4.5 }}>
+          <Menu sx={{ fontSize: 35 }} />
         </IconButton>
       </Box>
       <Divider
@@ -30,7 +25,7 @@ export function UserInfo({ text, onClick }: IUserInfoProps) {
           display: "flex",
           flexDirection: "row",
           gap: 6,
-          marginRight: 36,
+          marginRight: 42,
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
