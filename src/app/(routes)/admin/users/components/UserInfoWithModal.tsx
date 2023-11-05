@@ -20,8 +20,7 @@ export function UserInfoWithModal({
       <AdminUserModal
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
-        // ARRUMAR ISSO, pq usando "text" BUGA pq a variável fica FIXA, acho q usar useState resolve !!!!
-        username={"COLOCAR !"}
+        username={"COLOCAR Nome vindo do Banco de Dados !"}
       />
     </>
   );

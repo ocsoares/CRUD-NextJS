@@ -8,8 +8,6 @@ export function AdminUserActions() {
 
   return (
     <>
-      {/* ARRUMAR !!! */}
-      {/* APLICAR RESPONSIVIDADE ao invés de usar "gap", pq BUGA se o Nome for GRANDE ou PEQUENO !!! */}
       <UserInfoWithModal
         onClick={handleOpenModal}
         text="Vitor Pereira"

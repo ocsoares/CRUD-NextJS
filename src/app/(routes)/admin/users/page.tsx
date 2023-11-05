@@ -25,15 +25,11 @@ export default function UsersPage() {
           marginBottom: 5,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <AppUserAvatar />
-          <Typography sx={{ mt: 2, fontSize: 34 }}>Usuários</Typography>
+        <Box display={"flex"} flexDirection={"column"}>
+          <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+            <AppUserAvatar />
+            <Typography sx={{ mt: 2, fontSize: 34 }}>Usuários</Typography>
+          </Box>
           <AdminUserActions />
         </Box>
       </Paper>
