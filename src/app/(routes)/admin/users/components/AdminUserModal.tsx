@@ -3,11 +3,13 @@ import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material";
 interface IAdminUserModalProps {
   isModalOpen: boolean;
   handleCloseModal: () => void;
+  username: string;
 }
 
 export function AdminUserModal({
   isModalOpen,
   handleCloseModal,
+  username,
 }: IAdminUserModalProps) {
   const modalStyle = {
     position: "absolute" as const,
@@ -42,7 +44,7 @@ export function AdminUserModal({
             variant="h6"
             textAlign={"center"}
           >
-            Administrar usuário
+            {`Administrando usuário ${username}`}
           </Typography>
           <Typography id="admin-user-modal-description" sx={{ mt: 2 }}>
             Colocar botões para acionar ações sob o usuário, como deletar,
