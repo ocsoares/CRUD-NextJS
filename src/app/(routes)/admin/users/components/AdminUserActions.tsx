@@ -1,16 +1,18 @@
 "use client";
 
 import { useAdminUsers } from "../hooks/useAdminUsers";
-import { UserInfo } from "./UserInfo";
-import { AdminUserModal } from "./AdminUserModal";
+import { UserInfoWithModal } from "./UserInfoWithModal";
 
 export function AdminUserActions() {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useAdminUsers();
 
   return (
     <>
-      <UserInfo onClick={handleOpenModal} text="Vitor Pereira" />
-      <AdminUserModal
+      {/* ARRUMAR !!! */}
+      {/* APLICAR RESPONSIVIDADE ao invés de usar "gap", pq BUGA se o Nome for GRANDE ou PEQUENO !!! */}
+      <UserInfoWithModal
+        onClick={handleOpenModal}
+        text="Vitor Pereira"
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
       />
