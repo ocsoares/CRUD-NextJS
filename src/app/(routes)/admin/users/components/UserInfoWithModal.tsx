@@ -20,7 +20,7 @@ export function UserInfoWithModal({
       <AdminUserModal
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
-        username={"COLOCAR Nome vindo do Banco de Dados !"}
+        username={"COLOCAR Nome vindo do Banco de Dados !"} // Passar como PROPRIEDADE pra passar no "AdminUserActions" !!!
       />
     </>
   );
