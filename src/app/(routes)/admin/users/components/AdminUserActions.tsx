@@ -20,7 +20,14 @@ export function AdminUserActions() {
 
   return (
     <>
-      <Box display="flex" alignItems="center" marginTop={2.5} marginLeft={22.5}>
+      <Box
+        display="flex"
+        alignItems="center"
+        flexDirection={"row"}
+        gap={2}
+        marginTop={2.5}
+        marginLeft={22.5}
+      >
         <Box
           component="form"
           noValidate
@@ -36,7 +43,7 @@ export function AdminUserActions() {
             {...register("searchText")}
           />
         </Box>
-        <Box position={"absolute"} marginLeft={63.5}>
+        <Box marginRight={4.5}>
           <UserFilter />
         </Box>
       </Box>
