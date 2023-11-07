@@ -12,7 +12,7 @@ export default function UsersPage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "80vh",
+        minHeight: "90vh",
         minWidth: "100vh",
         wordBreak: "break-word",
       }}
