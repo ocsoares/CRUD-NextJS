@@ -9,8 +9,6 @@ export function DateRangePicker() {
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-  // ARRUMAR o Paper lá q ta MUITO Alto !!!!
-
   const handleStartDateChange = (date: Dayjs | null) => {
     setStartDate(date);
   };
