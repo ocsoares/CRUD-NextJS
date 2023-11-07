@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Dayjs } from "dayjs";
 
 export function DateRangePicker() {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-  const handleStartDateChange = (date: any) => {
+  // ARRUMAR o Paper lá q ta MUITO Alto !!!!
+
+  const handleStartDateChange = (date: Dayjs | null) => {
     setStartDate(date);
   };
 
@@ -20,10 +23,7 @@ export function DateRangePicker() {
     setEndDate(null);
   };
 
-  // ISSO AQ tá TOTALMENTE ERRADO !!
-  // VER ISSO aq direito...
   const handleApply = () => {
-    // Aqui você pode usar as datas selecionadas (startDate e endDate)
     console.log("Data de início:", startDate);
     console.log("Data de término:", endDate);
   };
@@ -49,6 +49,7 @@ export function DateRangePicker() {
           <DatePicker
             label="Data de Término"
             minDate={startDate}
+            format="DD/MM/YYYY"
             value={endDate}
             onChange={handleEndDateChange}
           />
@@ -60,11 +61,18 @@ export function DateRangePicker() {
           <Button variant="contained" color="primary" onClick={handleClear}>
             Limpar
           </Button>
+
           <Button
             variant="contained"
             color="primary"
             onClick={handleApply}
-            disabled={!startDate || !endDate || startDate > endDate}
+            disabled={
+              !startDate ||
+              !endDate ||
+              !startDate.isValid() ||
+              !endDate.isValid() ||
+              startDate.isAfter(endDate)
+            }
           >
             Aplicar
           </Button>
