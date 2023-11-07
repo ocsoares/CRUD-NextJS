@@ -1,4 +1,5 @@
-import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material";
+import { PersonRemove, Update } from "@mui/icons-material";
+import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 
 interface IAdminUserModalProps {
   isModalOpen: boolean;
@@ -16,11 +17,15 @@ export function AdminUserModal({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 500,
     bgcolor: "background.paper",
     border: "2px solid darkslateblue",
     boxShadow: 24,
     p: 4,
+  };
+
+  const handleButtonClick = () => {
+    console.log("Botão do Modal CLICADO !!!");
   };
 
   return (
@@ -46,10 +51,30 @@ export function AdminUserModal({
           >
             {`Administrando usuário ${username}`}
           </Typography>
-          <Typography id="admin-user-modal-description" sx={{ mt: 2 }}>
-            Colocar botões para acionar ações sob o usuário, como deletar,
-            alterar e etc...
-          </Typography>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"center"}
+            gap={4}
+            id="admin-user-modal-description"
+            mt={2.5}
+          >
+            <Button
+              color="secondary"
+              onClick={handleButtonClick}
+              startIcon={<Update color="success" />}
+            >
+              Atualizar usuário
+            </Button>
+
+            <Button
+              color="secondary"
+              onClick={handleButtonClick}
+              startIcon={<PersonRemove color="error" />}
+            >
+              Remover usuário
+            </Button>
+          </Box>
         </Box>
       </Fade>
     </Modal>
