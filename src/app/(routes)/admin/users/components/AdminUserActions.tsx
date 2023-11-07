@@ -5,6 +5,7 @@ import { useAdminUsers } from "../hooks/useAdminUsers";
 import SearchField from "./SearchField";
 import { UserInfoWithModal } from "./UserInfoWithModal";
 import { UserFilter } from "./UserFilter";
+import { DateRangePickerComponent } from "./DateRangePicker";
 
 export function AdminUserActions() {
   const {
@@ -47,6 +48,8 @@ export function AdminUserActions() {
           <UserFilter />
         </Box>
       </Box>
+
+      <DateRangePickerComponent />
 
       <UserInfoWithModal
         onClick={handleOpenModal}
