@@ -108,7 +108,7 @@ export function AuthLoginForm() {
           severity="info"
           title="Redirecionando"
           message="Você será redirecionado para"
-          messageHTML={<strong> send email</strong>}
+          messageHTML={<strong> admin/users</strong>}
         />
       </Stack>
     </>
