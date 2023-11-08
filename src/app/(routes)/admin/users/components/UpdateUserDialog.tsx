@@ -60,7 +60,6 @@ export function UpdateUserDialog({
               autoFocus={true}
               error={errors.firstName ? true : false}
               helperText={errors.firstName?.message}
-              required={false}
               sm={6}
               id="firstName"
               type="text"
@@ -72,7 +71,6 @@ export function UpdateUserDialog({
               control={control}
               error={errors.lastName ? true : false}
               helperText={errors.lastName?.message}
-              required={false}
               sm={6}
               id="lastName"
               type="text"
@@ -84,7 +82,6 @@ export function UpdateUserDialog({
               control={control}
               error={errors.email || emailExists ? true : false}
               helperText={errors.email?.message || emailExistsMessage}
-              required={false}
               id="email"
               type="email"
               label="Email"
@@ -95,7 +92,6 @@ export function UpdateUserDialog({
               control={control}
               error={errors.password ? true : false}
               helperText={errors.password?.message}
-              required={false}
               id="password"
               type="password"
               label="Senha"
@@ -106,7 +102,6 @@ export function UpdateUserDialog({
               control={control}
               error={errors.confirmPassword ? true : false}
               helperText={errors.confirmPassword?.message}
-              required={false}
               id="confirmPassword"
               type="password"
               label="Confirme sua senha"
