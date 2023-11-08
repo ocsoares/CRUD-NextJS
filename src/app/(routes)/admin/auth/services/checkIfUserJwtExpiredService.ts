@@ -1,7 +1,7 @@
 export const checkIfUserJwtExpiredService = async (jwt: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_BACKEND_URL}/check-jwt-expired`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_AUTHORIZATION_BACKEND_URL}/check-jwt-expired`,
       {
         method: "POST",
         headers: {

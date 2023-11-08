@@ -6,7 +6,7 @@ export const loginUserService = async (
 ): Promise<ILoginResponse> => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_BACKEND_URL}/login`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_AUTHORIZATION_BACKEND_URL}/login`,
       {
         method: "POST",
         headers: {

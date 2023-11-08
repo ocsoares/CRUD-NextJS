@@ -1,7 +1,7 @@
 export const generateUserGitHubTokenService = async (githubToken: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_BACKEND_URL}/generate-user-github-token`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_AUTHORIZATION_BACKEND_URL}/generate-user-github-token`,
       {
         method: "POST",
         headers: {

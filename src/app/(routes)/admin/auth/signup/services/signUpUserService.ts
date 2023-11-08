@@ -6,7 +6,7 @@ export const signUpUserService = async (
 ): Promise<ISignUpResponse> => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_BACKEND_URL}/register`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_AUTHORIZATION_BACKEND_URL}/register`,
       {
         method: "POST",
         headers: {

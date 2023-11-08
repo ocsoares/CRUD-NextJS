@@ -1,7 +1,7 @@
 export const generateUserGoogleTokenService = async (googleJWT: string) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_BACKEND_URL}/generate-user-google-token`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_AUTHORIZATION_BACKEND_URL}/generate-user-google-token`,
       {
         method: "POST",
         headers: {
