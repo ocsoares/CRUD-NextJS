@@ -1,14 +1,22 @@
 import Button from "@mui/material/Button";
 
 interface IAppButtonProps {
+  type?: "button" | "submit";
+  onClick?: () => void;
   text: string;
   disabled?: boolean;
 }
 
-export function AppButton({ text, disabled }: IAppButtonProps) {
+export function AppButton({
+  text,
+  onClick,
+  disabled,
+  type = "submit",
+}: IAppButtonProps) {
   return (
     <Button
-      type="submit"
+      type={type}
+      onClick={onClick}
       disabled={disabled}
       fullWidth
       variant="contained"
