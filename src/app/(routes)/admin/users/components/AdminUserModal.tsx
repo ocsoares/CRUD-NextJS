@@ -1,5 +1,7 @@
 import { PersonRemove, Update } from "@mui/icons-material";
 import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
+import { DeleteUserDialog } from "./DeleteUserDialog";
+import { useDeleteUser } from "../hooks/useDeleteUser";
 
 interface IAdminUserModalProps {
   isModalOpen: boolean;
@@ -12,6 +14,13 @@ export function AdminUserModal({
   handleCloseModal,
   username,
 }: IAdminUserModalProps) {
+  const {
+    isOpenDeleteUserDialogBox,
+    handleOpenDeleteUserDialogBox,
+    handleCloseDeleteUserDialogBox,
+    handleDeleteUser,
+  } = useDeleteUser();
+
   const modalStyle = {
     position: "absolute" as const,
     top: "50%",
@@ -24,8 +33,8 @@ export function AdminUserModal({
     p: 4,
   };
 
-  const handleButtonClick = () => {
-    console.log("Botão do Modal CLICADO !!!");
+  const handleOpenUpdateUserDialogBox = () => {
+    console.log("handleOpenUpdateUserDialogBox CLICADO !!!");
   };
 
   return (
@@ -61,7 +70,7 @@ export function AdminUserModal({
           >
             <Button
               color="secondary"
-              onClick={handleButtonClick}
+              onClick={handleOpenUpdateUserDialogBox}
               startIcon={<Update color="success" />}
             >
               Atualizar usuário
@@ -69,11 +78,18 @@ export function AdminUserModal({
 
             <Button
               color="secondary"
-              onClick={handleButtonClick}
+              onClick={handleOpenDeleteUserDialogBox}
               startIcon={<PersonRemove color="error" />}
             >
               Remover usuário
             </Button>
+
+            <DeleteUserDialog
+              open={isOpenDeleteUserDialogBox}
+              onClose={handleCloseDeleteUserDialogBox}
+              onClickToDisagree={handleCloseDeleteUserDialogBox}
+              onClickToConfirm={handleDeleteUser}
+            />
           </Box>
         </Box>
       </Fade>
