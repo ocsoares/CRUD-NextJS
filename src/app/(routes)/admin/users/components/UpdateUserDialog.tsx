@@ -1,25 +1,38 @@
+import { AppButton } from "@/shared/components/AppButton";
+import AppTextField from "@/shared/components/AppTextField";
 import {
-  Button,
+  Box,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
 } from "@mui/material";
+import { useUpdateUser } from "../hooks/useUpdateUser";
 
 interface IUpdateUserDialogProps {
   open: boolean;
   onClose: () => void;
-  onClickToDisagree: () => void;
-  onClickToConfirm: () => void;
+  onClickToCancel: () => void;
 }
 
 export function UpdateUserDialog({
   open,
   onClose,
-  onClickToDisagree,
-  onClickToConfirm,
+  onClickToCancel,
 }: IUpdateUserDialogProps) {
+  const {
+    handleSubmit,
+    handleSubmitData,
+    control,
+    errors,
+    register,
+    formSent,
+    emailExists,
+    emailExistsMessage,
+  } = useUpdateUser();
+
   return (
     <Dialog
       open={open}
@@ -35,15 +48,81 @@ export function UpdateUserDialog({
           Insira todos os dados do usuário corretamente nos campos abaixo para
           atualizar o usuário.
         </DialogContentText>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(handleSubmitData)}
+          sx={{ mt: 5 }}
+        >
+          <Grid container spacing={4}>
+            <AppTextField
+              control={control}
+              autoFocus={true}
+              error={errors.firstName ? true : false}
+              helperText={errors.firstName?.message}
+              required={false}
+              sm={6}
+              id="firstName"
+              type="text"
+              label="Primeiro nome"
+              {...register("firstName")}
+            />
+
+            <AppTextField
+              control={control}
+              error={errors.lastName ? true : false}
+              helperText={errors.lastName?.message}
+              required={false}
+              sm={6}
+              id="lastName"
+              type="text"
+              label="Segundo nome"
+              {...register("lastName")}
+            />
+
+            <AppTextField
+              control={control}
+              error={errors.email || emailExists ? true : false}
+              helperText={errors.email?.message || emailExistsMessage}
+              required={false}
+              id="email"
+              type="email"
+              label="Email"
+              {...register("email")}
+            />
+
+            <AppTextField
+              control={control}
+              error={errors.password ? true : false}
+              helperText={errors.password?.message}
+              required={false}
+              id="password"
+              type="password"
+              label="Senha"
+              {...register("password")}
+            />
+
+            <AppTextField
+              control={control}
+              error={errors.confirmPassword ? true : false}
+              helperText={errors.confirmPassword?.message}
+              required={false}
+              id="confirmPassword"
+              type="password"
+              label="Confirme sua senha"
+              {...register("confirmPassword")}
+            />
+          </Grid>
+          <DialogActions>
+            <AppButton
+              type="button"
+              onClick={onClickToCancel}
+              text="Cancelar"
+            />
+            <AppButton disabled={formSent} text="Atualizar" />
+          </DialogActions>
+        </Box>
       </DialogContent>
-      <DialogActions>
-        <Button color="secondary" onClick={onClickToDisagree}>
-          Cancelar
-        </Button>
-        <Button color="secondary" onClick={onClickToConfirm} autoFocus>
-          Atualizar
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

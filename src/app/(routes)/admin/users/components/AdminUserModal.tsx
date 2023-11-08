@@ -20,7 +20,6 @@ export function AdminUserModal({
     isOpenUpdateUserDialogBox,
     handleOpenUpdateUserDialogBox,
     handleCloseUpdateUserDialogBox,
-    handleUpdateUser,
   } = useUpdateUser();
 
   const {
@@ -84,8 +83,7 @@ export function AdminUserModal({
             <UpdateUserDialog
               open={isOpenUpdateUserDialogBox}
               onClose={handleCloseUpdateUserDialogBox}
-              onClickToDisagree={handleCloseUpdateUserDialogBox}
-              onClickToConfirm={handleUpdateUser}
+              onClickToCancel={handleCloseUpdateUserDialogBox}
             />
 
             <Button
