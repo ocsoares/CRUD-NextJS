@@ -3,14 +3,24 @@ import { UserAvatar } from "./UserAvatar";
 import { Menu, Person } from "@mui/icons-material";
 
 interface IUserInfoProps {
-  text: string;
-  onClick: () => void;
+  readonly text: string;
+  readonly onClick: () => void;
+  readonly key: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
-export function UserInfo({ text, onClick }: IUserInfoProps) {
+export function UserInfo({
+  text,
+  onClick,
+  key,
+  createdAt,
+  updatedAt,
+}: IUserInfoProps) {
   return (
     <>
       <Box
+        key={key}
         sx={{
           display: "flex",
           marginTop: 6,
@@ -39,7 +49,7 @@ export function UserInfo({ text, onClick }: IUserInfoProps) {
             Criado em
           </Typography>
           <Typography variant="body2" color={"#6F6B6B"}>
-            01/01/2001
+            {`${createdAt}`}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -47,7 +57,7 @@ export function UserInfo({ text, onClick }: IUserInfoProps) {
             Atualizado em:
           </Typography>
           <Typography variant="body2" color={"#6F6B6B"}>
-            02/02/2002
+            {`${updatedAt}`}
           </Typography>
         </Box>
       </Box>

@@ -2,25 +2,40 @@ import { AdminUserModal } from "./AdminUserModal";
 import { UserInfo } from "./UserInfo";
 
 interface IUserInfoWithModalProps {
-  onClick: () => void;
-  text: string;
-  isModalOpen: boolean;
-  handleCloseModal: () => void;
+  readonly key: number;
+  readonly onClick: () => void;
+  readonly text: string;
+  readonly isModalOpen: boolean;
+  readonly handleCloseModal: () => void;
+  readonly username: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 export function UserInfoWithModal({
+  key,
   onClick,
   text,
   isModalOpen,
   handleCloseModal,
+  username,
+  createdAt,
+  updatedAt,
 }: IUserInfoWithModalProps) {
   return (
     <>
-      <UserInfo onClick={onClick} text={text} />
+      <UserInfo
+        key={key}
+        onClick={onClick}
+        text={text}
+        createdAt={createdAt}
+        updatedAt={updatedAt}
+      />
       <AdminUserModal
+        key={key}
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
-        username={"COLOCAR Nome vindo do Banco de Dados !"} // Passar como PROPRIEDADE pra passar no "AdminUserActions" !!!
+        username={username}
       />
     </>
   );

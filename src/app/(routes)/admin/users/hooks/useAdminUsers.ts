@@ -4,9 +4,14 @@ import { ZodSearchSchemaType } from "../types/ZodSearchSchemaType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zodSearchSchema } from "../schemas/zodSearchSchema";
 import { ISearchData } from "../types/ISearchData";
+import { useSession } from "next-auth/react";
 
 export const useAdminUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [apiFailed, setApiFailed] = useState(false);
+  const [apiFailedMessage, setApiFailedMessage] = useState("");
+
+  const { data: session } = useSession();
 
   const {
     handleSubmit,
@@ -19,10 +24,18 @@ export const useAdminUsers = () => {
     resolver: zodResolver(zodSearchSchema),
   });
 
-  const handleSubmitData = ({ searchText }: ISearchData) => {
-    console.log("PESQUISADO !");
-    console.log("searchText:", searchText);
-    reset();
+  const handleSubmitData = async ({ searchText }: ISearchData) => {
+    try {
+      console.log("searchText:", searchText);
+
+      setApiFailed(false);
+      setApiFailedMessage("");
+
+      reset();
+    } catch (error) {
+      setApiFailed(true);
+      setApiFailedMessage((error as Error).message);
+    }
   };
 
   const handleOpenModal = () => {
@@ -39,6 +52,9 @@ export const useAdminUsers = () => {
     control,
     errors,
     handleSubmitData,
+    apiFailed,
+    apiFailedMessage,
+    session,
     isModalOpen,
     handleOpenModal,
     handleCloseModal,

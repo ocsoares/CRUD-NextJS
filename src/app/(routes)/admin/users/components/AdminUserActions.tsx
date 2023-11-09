@@ -6,11 +6,17 @@ import SearchField from "./SearchField";
 import { UserInfoWithModal } from "./UserInfoWithModal";
 import { UserFilter } from "./UserFilter";
 import { DateRangePicker } from "./DateRangePicker";
+import { useEffect, useState } from "react";
+import { getAllUsersService } from "../services/getAllUsersService";
+import { IUser } from "../../auth/interfaces/IUser";
 
 export function AdminUserActions() {
   const {
     handleSubmit,
     handleSubmitData,
+    session,
+    apiFailed,
+    apiFailedMessage,
     isModalOpen,
     handleOpenModal,
     handleCloseModal,
@@ -18,6 +24,24 @@ export function AdminUserActions() {
     control,
     errors,
   } = useAdminUsers();
+
+  const [allUsers, setAllUsers] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    const getAllUsers = async () => {
+      if (session) {
+        const users = await getAllUsersService(session.user.jwt);
+
+        if (users) {
+          setAllUsers(users);
+        } else {
+          setAllUsers([]);
+        }
+      }
+    };
+
+    getAllUsers();
+  }, [session]);
 
   return (
     <>
@@ -39,8 +63,8 @@ export function AdminUserActions() {
         >
           <SearchField
             control={control}
-            error={errors.searchText ? true : false}
-            helperText={errors.searchText?.message}
+            error={errors.searchText || apiFailed ? true : false}
+            helperText={errors.searchText?.message || apiFailedMessage}
             {...register("searchText")}
           />
         </Box>
@@ -51,12 +75,22 @@ export function AdminUserActions() {
 
       <DateRangePicker />
 
-      <UserInfoWithModal
-        onClick={handleOpenModal}
-        text="Vitor Pereira"
-        isModalOpen={isModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
+      {allUsers.map(({ firstName, lastName, createdAt, updatedAt }, index) => (
+        <UserInfoWithModal
+          key={index}
+          onClick={handleOpenModal}
+          text={`${firstName} ${lastName}`}
+          createdAt={
+            createdAt ? new Date(createdAt).toLocaleDateString("pt-BR") : ""
+          }
+          updatedAt={
+            updatedAt ? new Date(updatedAt).toLocaleDateString("pt-BR") : ""
+          }
+          isModalOpen={isModalOpen}
+          handleCloseModal={handleCloseModal}
+          username={`${firstName} ${lastName}`} // Esse aqui tá dando ERRADO, a Variável tá FIXA por algum motivo...
+        />
+      ))}
     </>
   );
 }
