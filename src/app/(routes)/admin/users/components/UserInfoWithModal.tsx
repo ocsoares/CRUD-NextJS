@@ -2,7 +2,6 @@ import { AdminUserModal } from "./AdminUserModal";
 import { UserInfo } from "./UserInfo";
 
 interface IUserInfoWithModalProps {
-  readonly key: number;
   readonly onClick: () => void;
   readonly text: string;
   readonly isModalOpen: boolean;
@@ -13,7 +12,6 @@ interface IUserInfoWithModalProps {
 }
 
 export function UserInfoWithModal({
-  key,
   onClick,
   text,
   isModalOpen,
@@ -25,14 +23,12 @@ export function UserInfoWithModal({
   return (
     <>
       <UserInfo
-        key={key}
         onClick={onClick}
         text={text}
         createdAt={createdAt}
         updatedAt={updatedAt}
       />
       <AdminUserModal
-        key={key}
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
         username={username}

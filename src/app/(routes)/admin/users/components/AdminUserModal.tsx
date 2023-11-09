@@ -9,14 +9,12 @@ interface IAdminUserModalProps {
   readonly isModalOpen: boolean;
   readonly handleCloseModal: () => void;
   readonly username: string;
-  readonly key: number;
 }
 
 export function AdminUserModal({
   isModalOpen,
   handleCloseModal,
   username,
-  key,
 }: IAdminUserModalProps) {
   const {
     isOpenUpdateUserDialogBox,
@@ -45,7 +43,6 @@ export function AdminUserModal({
 
   return (
     <Modal
-      key={key}
       aria-labelledby="admin-user-modal-title"
       aria-describedby="admin-user-modal-description"
       open={isModalOpen}

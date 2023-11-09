@@ -5,7 +5,6 @@ import { Menu, Person } from "@mui/icons-material";
 interface IUserInfoProps {
   readonly text: string;
   readonly onClick: () => void;
-  readonly key: number;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
@@ -13,14 +12,12 @@ interface IUserInfoProps {
 export function UserInfo({
   text,
   onClick,
-  key,
   createdAt,
   updatedAt,
 }: IUserInfoProps) {
   return (
     <>
       <Box
-        key={key}
         sx={{
           display: "flex",
           marginTop: 6,
