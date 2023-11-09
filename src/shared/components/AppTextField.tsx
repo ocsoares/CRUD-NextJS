@@ -8,21 +8,23 @@ import TextField from "@mui/material/TextField";
 import { Control, Controller, FieldValues } from "react-hook-form";
 
 interface IAppTextFieldProps<T extends FieldValues> {
-  control: Control<T>;
-  name: string;
-  sm?: number;
-  autoFocus?: boolean;
-  error?: boolean;
-  helperText?: string;
-  id: string;
-  type: "text" | "email" | "password";
-  label: string;
+  readonly control: Control<T>;
+  readonly name: string;
+  readonly defaultValue?: string;
+  readonly sm?: number;
+  readonly autoFocus?: boolean;
+  readonly error?: boolean;
+  readonly helperText?: string;
+  readonly id: string;
+  readonly type: "text" | "email" | "password";
+  readonly label: string;
 }
 
 const AppTextField = React.forwardRef(function AppTextField(
   {
     control,
     name,
+    defaultValue,
     sm,
     autoFocus = false,
     error = false,
@@ -41,7 +43,7 @@ const AppTextField = React.forwardRef(function AppTextField(
       rules={{
         required: "This is required",
       }}
-      defaultValue=""
+      defaultValue={defaultValue}
       // field, fieldState: { invalid, error }
       render={({ field }) => (
         <Grid item xs={12} sm={sm}>
