@@ -8,13 +8,11 @@ import { UpdateUserDialog } from "./UpdateUserDialog";
 interface IAdminUserModalProps {
   readonly isModalOpen: boolean;
   readonly handleCloseModal: () => void;
-  readonly username: string;
 }
 
 export function AdminUserModal({
   isModalOpen,
   handleCloseModal,
-  username,
 }: IAdminUserModalProps) {
   const {
     isOpenUpdateUserDialogBox,
@@ -62,7 +60,8 @@ export function AdminUserModal({
             variant="h6"
             textAlign={"center"}
           >
-            {`Administrando usuário ${username}`}
+            {/* Usando "${username}" vindo do "AdminUserActions" NÃO funcionou, fixou FIXO !! */}
+            {"Administrando usuário"}
           </Typography>
           <Box
             display={"flex"}

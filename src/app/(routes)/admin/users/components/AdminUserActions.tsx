@@ -88,7 +88,6 @@ export function AdminUserActions() {
           }
           isModalOpen={isModalOpen}
           handleCloseModal={handleCloseModal}
-          username={`${firstName} ${lastName}`} // Esse aqui tá dando ERRADO, a Variável tá FIXA por algum motivo...
         />
       ))}
     </>
