@@ -8,11 +8,11 @@ export default function UsersPage() {
       component="main"
       maxWidth="xs"
       sx={{
+        mt: 15.2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "90vh",
         minWidth: "100vh",
         wordBreak: "break-word",
       }}
