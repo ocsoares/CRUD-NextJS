@@ -15,6 +15,9 @@ export function AdminUserActions() {
     handleSubmit,
     handleSubmitData,
     session,
+    isModalOpen,
+    handleOpenModal,
+    handleCloseModal,
     apiFailed,
     apiFailedMessage,
     register,
@@ -39,24 +42,6 @@ export function AdminUserActions() {
 
     getAllUsers();
   }, [session]);
-
-  const [show, setShow] = useState<boolean[]>([false]);
-
-  const openModal = (index: number) => {
-    handleChanges(index, true);
-  };
-
-  const closeModal = (index: number) => {
-    handleChanges(index, false);
-  };
-
-  const handleChanges = (index: number, value: boolean) => {
-    const items = [...show];
-
-    items[index] = value;
-
-    setShow(items);
-  };
 
   return (
     <>
@@ -95,7 +80,7 @@ export function AdminUserActions() {
           return (
             <UserInfoWithModal
               key={index}
-              onClick={() => openModal(index)}
+              onClick={() => handleOpenModal(index)}
               text={`${firstName} ${lastName}`}
               createdAt={
                 createdAt ? new Date(createdAt).toLocaleDateString("pt-BR") : ""
@@ -103,8 +88,8 @@ export function AdminUserActions() {
               updatedAt={
                 updatedAt ? new Date(updatedAt).toLocaleDateString("pt-BR") : ""
               }
-              isModalOpen={show[index] || false}
-              handleCloseModal={() => closeModal(index)}
+              isModalOpen={isModalOpen[index] || false}
+              handleCloseModal={() => handleCloseModal(index)}
               modalUsername={`${firstName} ${lastName}`}
               defaultValueFirstName={firstName}
               defaultValueLastName={lastName}

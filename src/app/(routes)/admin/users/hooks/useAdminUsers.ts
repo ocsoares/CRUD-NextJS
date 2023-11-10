@@ -7,7 +7,7 @@ import { ISearchData } from "../types/ISearchData";
 import { useSession } from "next-auth/react";
 
 export const useAdminUsers = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean[]>([false]);
   const [apiFailed, setApiFailed] = useState(false);
   const [apiFailedMessage, setApiFailedMessage] = useState("");
 
@@ -38,12 +38,20 @@ export const useAdminUsers = () => {
     }
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenModal = (index: number) => {
+    handleModalChanges(index, true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseModal = (index: number) => {
+    handleModalChanges(index, false);
+  };
+
+  const handleModalChanges = (index: number, value: boolean) => {
+    const items = [...isModalOpen];
+
+    items[index] = value;
+
+    setIsModalOpen(items);
   };
 
   return {
