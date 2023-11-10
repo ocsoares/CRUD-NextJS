@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { useAdminUsers } from "../hooks/useAdminUsers";
 import SearchField from "./SearchField";
 import { UserInfoWithModal } from "./UserInfoWithModal";
@@ -9,6 +9,8 @@ import { DateRangePicker } from "./DateRangePicker";
 import { useEffect, useState } from "react";
 import { getAllUsersService } from "../services/getAllUsersService";
 import { IUser } from "../../auth/interfaces/IUser";
+import { USERS_PER_PAGE } from "../constants/usersPerPageConstant";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function AdminUserActions() {
   const {
@@ -27,6 +29,24 @@ export function AdminUserActions() {
 
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
 
+  // COLOCAR TUDO isso em um NOVO custom hook !!!
+  // OBS: Inclusive a FUNÇÃO de Buscar Usuários no useEffect !!!
+  const router = useRouter();
+
+  const currentURL = usePathname();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const startIndex = (currentPage - 1) * USERS_PER_PAGE;
+  const endIndex = startIndex + USERS_PER_PAGE;
+
+  const handlePageChange = (newPage: number) => {
+    params.set("page", String(newPage));
+    router.push(`${currentURL}?page=${newPage}`);
+  };
+
   useEffect(() => {
     const getAllUsers = async () => {
       if (session) {
@@ -41,7 +61,7 @@ export function AdminUserActions() {
     };
 
     getAllUsers();
-  }, [session]);
+  }, [session, currentPage]);
 
   return (
     <>
@@ -75,8 +95,9 @@ export function AdminUserActions() {
 
       <DateRangePicker />
 
-      {allUsers.map(
-        ({ firstName, lastName, email, createdAt, updatedAt }, index) => {
+      {allUsers
+        .slice(startIndex, endIndex)
+        .map(({ firstName, lastName, email, createdAt, updatedAt }, index) => {
           return (
             <UserInfoWithModal
               key={index}
@@ -96,8 +117,16 @@ export function AdminUserActions() {
               defaultValueEmail={email}
             />
           );
-        },
-      )}
+        })}
+
+      <Box display={"flex"} justifyContent={"center"}>
+        <Pagination
+          count={Math.ceil(allUsers.length / USERS_PER_PAGE)}
+          page={currentPage}
+          onChange={(event, newPage) => handlePageChange(newPage)}
+          sx={{ mt: 4 }}
+        />
+      </Box>
     </>
   );
 }
