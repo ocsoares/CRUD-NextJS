@@ -35,14 +35,28 @@ export const zodUpdateSchema = z
       .email("Formato de email inválido !"),
 
     password: z
-      .string({ required_error: "A senha não pode ser vazia !" })
-      .min(7, "A senha precisa ter no mínimo 7 caracteres !"),
+      .string()
+      .refine((password) => !password || password.length >= 7, {
+        message: "A senha precisa ter no mínimo 7 caracteres !",
+      })
+      .optional(),
 
     confirmPassword: z
-      .string({ required_error: "A confirmação de senha não pode ser vazia !" })
-      .min(1, "A confirmação da senha não pode ser vazia !"),
+      .string()
+      .refine(
+        (confirmPassword) => !confirmPassword || confirmPassword.length >= 1,
+        {
+          message: "A confirmação da senha não pode ser vazia !",
+        },
+      )
+      .optional(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas precisam ser iguais !",
-    path: ["confirmPassword"],
-  }) satisfies ZodType<IUpdateUserData>;
+  .refine(
+    (data) =>
+      (!data.password && !data.confirmPassword) ||
+      data.password === data.confirmPassword,
+    {
+      message: "As senhas precisam ser iguais !",
+      path: ["confirmPassword"],
+    },
+  ) satisfies ZodType<IUpdateUserData>;
