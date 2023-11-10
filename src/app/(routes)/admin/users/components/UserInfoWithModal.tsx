@@ -6,6 +6,10 @@ interface IUserInfoWithModalProps {
   readonly text: string;
   readonly isModalOpen: boolean;
   readonly handleCloseModal: () => void;
+  readonly modalUsername: string;
+  readonly defaultValueFirstName: string;
+  readonly defaultValueLastName: string;
+  readonly defaultValueEmail: string;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
@@ -15,6 +19,10 @@ export function UserInfoWithModal({
   text,
   isModalOpen,
   handleCloseModal,
+  modalUsername,
+  defaultValueFirstName,
+  defaultValueLastName,
+  defaultValueEmail,
   createdAt,
   updatedAt,
 }: IUserInfoWithModalProps) {
@@ -29,6 +37,10 @@ export function UserInfoWithModal({
       <AdminUserModal
         isModalOpen={isModalOpen}
         handleCloseModal={handleCloseModal}
+        modalUsername={modalUsername}
+        defaultValueFirstName={defaultValueFirstName}
+        defaultValueLastName={defaultValueLastName}
+        defaultValueEmail={defaultValueEmail}
       />
     </>
   );

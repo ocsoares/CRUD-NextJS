@@ -17,9 +17,6 @@ export function AdminUserActions() {
     session,
     apiFailed,
     apiFailedMessage,
-    isModalOpen,
-    handleOpenModal,
-    handleCloseModal,
     register,
     control,
     errors,
@@ -42,6 +39,24 @@ export function AdminUserActions() {
 
     getAllUsers();
   }, [session]);
+
+  const [show, setShow] = useState<boolean[]>([false]);
+
+  const openModal = (index: number) => {
+    handleChanges(index, true);
+  };
+
+  const closeModal = (index: number) => {
+    handleChanges(index, false);
+  };
+
+  const handleChanges = (index: number, value: boolean) => {
+    const items = [...show];
+
+    items[index] = value;
+
+    setShow(items);
+  };
 
   return (
     <>
@@ -75,21 +90,29 @@ export function AdminUserActions() {
 
       <DateRangePicker />
 
-      {allUsers.map(({ firstName, lastName, createdAt, updatedAt }, index) => (
-        <UserInfoWithModal
-          key={index}
-          onClick={handleOpenModal}
-          text={`${firstName} ${lastName}`}
-          createdAt={
-            createdAt ? new Date(createdAt).toLocaleDateString("pt-BR") : ""
-          }
-          updatedAt={
-            updatedAt ? new Date(updatedAt).toLocaleDateString("pt-BR") : ""
-          }
-          isModalOpen={isModalOpen}
-          handleCloseModal={handleCloseModal}
-        />
-      ))}
+      {allUsers.map(
+        ({ firstName, lastName, email, createdAt, updatedAt }, index) => {
+          return (
+            <UserInfoWithModal
+              key={index}
+              onClick={() => openModal(index)}
+              text={`${firstName} ${lastName}`}
+              createdAt={
+                createdAt ? new Date(createdAt).toLocaleDateString("pt-BR") : ""
+              }
+              updatedAt={
+                updatedAt ? new Date(updatedAt).toLocaleDateString("pt-BR") : ""
+              }
+              isModalOpen={show[index] || false}
+              handleCloseModal={() => closeModal(index)}
+              modalUsername={`${firstName} ${lastName}`}
+              defaultValueFirstName={firstName}
+              defaultValueLastName={lastName}
+              defaultValueEmail={email}
+            />
+          );
+        },
+      )}
     </>
   );
 }

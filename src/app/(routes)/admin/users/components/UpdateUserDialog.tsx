@@ -12,15 +12,21 @@ import {
 import { useUpdateUser } from "../hooks/useUpdateUser";
 
 interface IUpdateUserDialogProps {
-  open: boolean;
-  onClose: () => void;
-  onClickToCancel: () => void;
+  readonly open: boolean;
+  readonly onClose: () => void;
+  readonly onClickToCancel: () => void;
+  readonly defaultValueFirstName: string;
+  readonly defaultValueLastName: string;
+  readonly defaultValueEmail: string;
 }
 
 export function UpdateUserDialog({
   open,
   onClose,
   onClickToCancel,
+  defaultValueFirstName,
+  defaultValueLastName,
+  defaultValueEmail,
 }: IUpdateUserDialogProps) {
   const {
     handleSubmit,
@@ -57,6 +63,7 @@ export function UpdateUserDialog({
           <Grid container spacing={4}>
             <AppTextField
               control={control}
+              defaultValue={defaultValueFirstName}
               autoFocus={true}
               error={errors.firstName ? true : false}
               helperText={errors.firstName?.message}
@@ -64,47 +71,53 @@ export function UpdateUserDialog({
               id="firstName"
               type="text"
               label="Primeiro nome"
-              {...register("firstName")}
+              {...register("firstName", { value: defaultValueFirstName })}
             />
 
             <AppTextField
               control={control}
+              defaultValue={defaultValueLastName}
               error={errors.lastName ? true : false}
               helperText={errors.lastName?.message}
               sm={6}
               id="lastName"
               type="text"
               label="Segundo nome"
-              {...register("lastName")}
+              {...register("lastName", { value: defaultValueLastName })}
             />
 
             <AppTextField
               control={control}
+              defaultValue={defaultValueEmail}
               error={errors.email || emailExists ? true : false}
               helperText={errors.email?.message || emailExistsMessage}
               id="email"
               type="email"
               label="Email"
-              {...register("email")}
+              {...register("email", { value: defaultValueEmail })}
             />
 
             <AppTextField
               control={control}
+              defaultValue=""
               error={errors.password ? true : false}
               helperText={errors.password?.message}
+              required={false}
               id="password"
               type="password"
-              label="Senha"
+              label="Nova senha"
               {...register("password")}
             />
 
             <AppTextField
               control={control}
+              defaultValue=""
               error={errors.confirmPassword ? true : false}
               helperText={errors.confirmPassword?.message}
+              required={false}
               id="confirmPassword"
               type="password"
-              label="Confirme sua senha"
+              label="Confirme sua nova senha"
               {...register("confirmPassword")}
             />
           </Grid>

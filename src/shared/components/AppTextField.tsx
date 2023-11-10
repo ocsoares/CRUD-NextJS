@@ -15,6 +15,7 @@ interface IAppTextFieldProps<T extends FieldValues> {
   readonly autoFocus?: boolean;
   readonly error?: boolean;
   readonly helperText?: string;
+  readonly required?: boolean;
   readonly id: string;
   readonly type: "text" | "email" | "password";
   readonly label: string;
@@ -29,6 +30,7 @@ const AppTextField = React.forwardRef(function AppTextField(
     autoFocus = false,
     error = false,
     helperText = "",
+    required = true,
     id,
     type,
     label,
@@ -53,7 +55,7 @@ const AppTextField = React.forwardRef(function AppTextField(
             helperText={helperText}
             color="secondary"
             autoComplete="none"
-            required
+            required={required}
             fullWidth
             id={id}
             type={type}
