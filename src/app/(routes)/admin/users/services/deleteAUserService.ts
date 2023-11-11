@@ -7,7 +7,7 @@ export const deleteAUserService = async (
 ): Promise<IDeleteUserResponse> => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_CRUD_BACKEND_URL}/user/delete`,
+      `${process.env.NEXT_PUBLIC_EXTERNAL_CRUD_BACKEND_URL}/user`,
       {
         method: "DELETE",
         headers: {
