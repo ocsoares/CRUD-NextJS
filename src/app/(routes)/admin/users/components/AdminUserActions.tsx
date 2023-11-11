@@ -9,13 +9,14 @@ import { useEffect, useState } from "react";
 import { getAllUsersService } from "../services/getAllUsersService";
 import { IUser } from "../../auth/interfaces/IUser";
 import { USERS_PER_PAGE } from "../constants/usersPerPageConstant";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useModal } from "../hooks/useModal";
 import { useSearch } from "../hooks/useSearch";
 import { useSession } from "next-auth/react";
+import { usePagination } from "../hooks/usePagination";
 
 export function AdminUserActions() {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
+
   const {
     handleSubmit,
     register,
@@ -26,28 +27,12 @@ export function AdminUserActions() {
     searchApiFailedMessage,
   } = useSearch();
 
-  // EXCLUIR !!
+  const { currentPage, startIndex, endIndex, handlePageChange } =
+    usePagination();
+
   const { data: session } = useSession();
 
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
-
-  // COLOCAR TUDO isso em um NOVO custom hook !!!
-  // OBS: Inclusive a FUNÇÃO de Buscar Usuários no useEffect !!!
-  const router = useRouter();
-
-  const currentURL = usePathname();
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-
-  const currentPage = Number(searchParams.get("page")) || 1;
-
-  const startIndex = (currentPage - 1) * USERS_PER_PAGE;
-  const endIndex = startIndex + USERS_PER_PAGE;
-
-  const handlePageChange = (newPage: number) => {
-    params.set("page", String(newPage));
-    router.push(`${currentURL}?page=${newPage}`);
-  };
 
   useEffect(() => {
     const getAllUsers = async () => {
