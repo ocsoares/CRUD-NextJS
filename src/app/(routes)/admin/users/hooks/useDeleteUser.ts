@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { deleteAUserService } from "../services/deleteAUserService";
+import { useSession } from "next-auth/react";
 
 export const useDeleteUser = () => {
   const [isOpenDeleteUserDialogBox, setIsOpenDeleteUserDialogBox] =
@@ -11,11 +13,24 @@ export const useDeleteUser = () => {
     setIsOpenDeleteUserDialogBox(false);
   };
 
-  const handleDeleteUser = async () => {
-    console.log("Ação para DELETAR o Usuário !!!");
-    setIsOpenDeleteUserDialogBox(false);
+  const { data: session } = useSession();
 
-    window.location.reload();
+  const handleDeleteUser = async (email: string) => {
+    try {
+      if (session) {
+        const deletedUser = await deleteAUserService(session, email);
+
+        if (deletedUser) {
+          setIsOpenDeleteUserDialogBox(false);
+
+          window.location.reload();
+
+          return;
+        }
+      }
+    } catch (error) {
+      console.log("ERROR:", error);
+    }
   };
 
   return {

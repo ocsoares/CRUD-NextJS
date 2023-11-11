@@ -108,7 +108,7 @@ export function AdminUserModal({
                 open={isOpenDeleteUserDialogBox}
                 onClose={handleCloseDeleteUserDialogBox}
                 onClickToDisagree={handleCloseDeleteUserDialogBox}
-                onClickToConfirm={handleDeleteUser}
+                onClickToConfirm={() => handleDeleteUser(defaultValueEmail)}
               />
             </Box>
           </Box>
