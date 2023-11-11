@@ -1,7 +1,6 @@
 "use client";
 
 import { Box, Pagination } from "@mui/material";
-import { useAdminUsers } from "../hooks/useAdminUsers";
 import SearchField from "./SearchField";
 import { UserInfoWithModal } from "./UserInfoWithModal";
 import { UserFilter } from "./UserFilter";
@@ -11,21 +10,24 @@ import { getAllUsersService } from "../services/getAllUsersService";
 import { IUser } from "../../auth/interfaces/IUser";
 import { USERS_PER_PAGE } from "../constants/usersPerPageConstant";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useModal } from "../hooks/useModal";
+import { useSearch } from "../hooks/useSearch";
+import { useSession } from "next-auth/react";
 
 export function AdminUserActions() {
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const {
     handleSubmit,
-    handleSubmitData,
-    session,
-    isModalOpen,
-    handleOpenModal,
-    handleCloseModal,
-    apiFailed,
-    apiFailedMessage,
     register,
     control,
     errors,
-  } = useAdminUsers();
+    handleSubmitData,
+    searchApiFailed,
+    searchApiFailedMessage,
+  } = useSearch();
+
+  // EXCLUIR !!
+  const { data: session } = useSession();
 
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
 
@@ -83,8 +85,8 @@ export function AdminUserActions() {
         >
           <SearchField
             control={control}
-            error={errors.searchText || apiFailed ? true : false}
-            helperText={errors.searchText?.message || apiFailedMessage}
+            error={errors.searchText || searchApiFailed ? true : false}
+            helperText={errors.searchText?.message || searchApiFailedMessage}
             {...register("searchText")}
           />
         </Box>
