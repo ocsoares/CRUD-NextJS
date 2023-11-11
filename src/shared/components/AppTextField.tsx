@@ -25,7 +25,7 @@ const AppTextField = React.forwardRef(function AppTextField(
   {
     control,
     name,
-    defaultValue,
+    defaultValue = "",
     sm,
     autoFocus = false,
     error = false,

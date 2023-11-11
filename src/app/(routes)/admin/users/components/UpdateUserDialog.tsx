@@ -99,7 +99,6 @@ export function UpdateUserDialog({
 
             <AppTextField
               control={control}
-              defaultValue=""
               error={errors.password ? true : false}
               helperText={errors.password?.message}
               required={false}
@@ -111,7 +110,6 @@ export function UpdateUserDialog({
 
             <AppTextField
               control={control}
-              defaultValue=""
               error={errors.confirmPassword ? true : false}
               helperText={errors.confirmPassword?.message}
               required={false}
