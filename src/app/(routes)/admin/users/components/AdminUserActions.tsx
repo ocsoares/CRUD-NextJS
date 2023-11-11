@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Pagination } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import SearchField from "./SearchField";
 import { UserInfoWithModal } from "./UserInfoWithModal";
 import { UserFilter } from "./UserFilter";
@@ -82,40 +82,52 @@ export function AdminUserActions() {
 
       <DateRangePicker />
 
-      {allUsers
-        .slice(startIndex, endIndex)
-        .map(({ firstName, lastName, email, createdAt, updatedAt }, index) => {
-          return (
-            <UserInfoWithModal
-              key={index}
-              onClick={() => handleOpenModal(index)}
-              text={`${firstName} ${lastName}`}
-              createdAt={
-                createdAt ? new Date(createdAt).toLocaleDateString("pt-BR") : ""
-              }
-              updatedAt={
-                updatedAt ? new Date(updatedAt).toLocaleDateString("pt-BR") : ""
-              }
-              isModalOpen={isModalOpen[index] || false}
-              handleCloseModal={() => handleCloseModal(index)}
-              modalUsername={`${firstName} ${lastName}`}
-              defaultValueFirstName={firstName}
-              defaultValueLastName={lastName}
-              defaultValueEmail={email}
+      {/* Adicionar um Skeleton e ver o Estado do Carregamento da variável async "allUsers" !!! */}
+      {allUsers.length === 0 ? (
+        <Typography mt={10} textAlign={"center"} variant="h5" color={"#ACA4A4"}>
+          Nenhum usuário registrado
+        </Typography>
+      ) : (
+        <>
+          {allUsers
+            .slice(startIndex, endIndex)
+            .map(
+              ({ firstName, lastName, email, createdAt, updatedAt }, index) => (
+                <UserInfoWithModal
+                  key={index}
+                  onClick={() => handleOpenModal(index)}
+                  text={`${firstName} ${lastName}`}
+                  createdAt={
+                    createdAt
+                      ? new Date(createdAt).toLocaleDateString("pt-BR")
+                      : ""
+                  }
+                  updatedAt={
+                    updatedAt
+                      ? new Date(updatedAt).toLocaleDateString("pt-BR")
+                      : ""
+                  }
+                  isModalOpen={isModalOpen[index] || false}
+                  handleCloseModal={() => handleCloseModal(index)}
+                  modalUsername={`${firstName} ${lastName}`}
+                  defaultValueFirstName={firstName}
+                  defaultValueLastName={lastName}
+                  defaultValueEmail={email}
+                />
+              ),
+            )}
+          <Box display={"flex"} justifyContent={"center"}>
+            <Pagination
+              count={Math.ceil(allUsers.length / USERS_PER_PAGE)}
+              page={currentPage}
+              showFirstButton
+              showLastButton
+              onChange={(event, newPage) => handlePageChange(newPage)}
+              sx={{ mt: 4 }}
             />
-          );
-        })}
-
-      <Box display={"flex"} justifyContent={"center"}>
-        <Pagination
-          count={Math.ceil(allUsers.length / USERS_PER_PAGE)}
-          page={currentPage}
-          showFirstButton
-          showLastButton
-          onChange={(event, newPage) => handlePageChange(newPage)}
-          sx={{ mt: 4 }}
-        />
-      </Box>
+          </Box>
+        </>
+      )}
     </>
   );
 }
