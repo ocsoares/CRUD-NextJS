@@ -110,6 +110,8 @@ export function AdminUserActions() {
         <Pagination
           count={Math.ceil(allUsers.length / USERS_PER_PAGE)}
           page={currentPage}
+          showFirstButton
+          showLastButton
           onChange={(event, newPage) => handlePageChange(newPage)}
           sx={{ mt: 4 }}
         />
