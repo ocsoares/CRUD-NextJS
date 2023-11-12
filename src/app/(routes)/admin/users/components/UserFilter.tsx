@@ -35,7 +35,7 @@ export function UserFilter() {
   };
 
   return (
-    <div>
+    <>
       <Button
         aria-controls="sorting-menu"
         aria-haspopup="true"
@@ -60,14 +60,14 @@ export function UserFilter() {
         onClose={handleClose}
       >
         <List>
-          <ListItemButton onClick={() => handleSort("asc")}>
-            <ListItemText primary="Menor para o maior" />
-          </ListItemButton>
           <ListItemButton onClick={() => handleSort("desc")}>
-            <ListItemText primary="Maior para o menor" />
+            <ListItemText primary="Usuários mais novos" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleSort("asc")}>
+            <ListItemText primary="Usuários mais antigos" />
           </ListItemButton>
         </List>
       </Popover>
-    </div>
+    </>
   );
 }
