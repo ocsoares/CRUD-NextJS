@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { IUpdateUserData } from "../types/IUpdateUserData";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodUpdateSchemaType } from "../types/ZodUpdateSchemaType";
 import { zodUpdateSchema } from "../schemas/zodUpdateSchema";
+import { useSession } from "next-auth/react";
+import { UpdateAUserService } from "../services/updateAUserService";
+import { IUpdateAUserBody } from "../types/IUpdateAUserBody";
 
 export const useUpdateUser = () => {
   const [isOpenUpdateUserDialogBox, setIsOpenUpdateUserDialogBox] =
@@ -14,11 +16,12 @@ export const useUpdateUser = () => {
   const [emailExists, setEmailExists] = useState(false);
   const [emailExistsMessage, setEmailExistsMessage] = useState("");
 
+  const { data: session } = useSession();
+
   const {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors },
   } = useForm<ZodUpdateSchemaType>({
     mode: "onChange",
@@ -32,28 +35,34 @@ export const useUpdateUser = () => {
   const handleCloseUpdateUserDialogBox = () => {
     setIsOpenUpdateUserDialogBox(false);
   };
-  const handleSubmitData = async (data: IUpdateUserData) => {
+  const handleSubmitData = async (data: IUpdateAUserBody) => {
+    if (data.password === "") {
+      data.password = undefined;
+    }
+
     try {
-      // const signup = await signUpUserService(data); // FAZER um Service pra isso !! <<
-      const updateUser: any = data; // MUDAR...
+      if (session) {
+        const updateUser = await UpdateAUserService(session, { ...data });
 
-      if (updateUser.statusCode === 409) {
-        setEmailExists(true);
-        setEmailExistsMessage("Esse email já está em uso. Tente outro.");
+        if (updateUser.statusCode === 409) {
+          setEmailExists(true);
+          setEmailExistsMessage("Esse email já está em uso. Tente outro.");
 
-        reset();
+          return;
+        }
+
+        setApiFailed(false);
+        setEmailExists(false);
+        setEmailExistsMessage("");
+        setFormSent(true);
+
+        setIsOpenUpdateUserDialogBox(false);
+
+        window.location.reload();
 
         return;
       }
-
-      setApiFailed(false);
-      setEmailExists(false);
-      setEmailExistsMessage("");
-      setFormSent(true);
-
-      reset();
     } catch (error) {
-      console.log("ERROR:", error);
       setApiFailed(true);
       setApiFailedMessage((error as Error).message);
     }

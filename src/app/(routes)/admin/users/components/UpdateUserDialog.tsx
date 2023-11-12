@@ -10,6 +10,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useUpdateUser } from "../hooks/useUpdateUser";
+import { ChangeEvent, useState } from "react";
 
 interface IUpdateUserDialogProps {
   readonly open: boolean;
@@ -39,6 +40,11 @@ export function UpdateUserDialog({
     emailExistsMessage,
   } = useUpdateUser();
 
+  const [isTheSameFirstNameField, setIsTheSameFirstNameField] = useState(true);
+  const [isTheSameLastNameField, setIsTheSameLastNameField] = useState(true);
+  const [isTheSameEmailField, setIsTheSameEmailField] = useState(true);
+  const [passwordFieldExists, setPasswordFieldExists] = useState(false);
+
   return (
     <Dialog
       open={open}
@@ -57,7 +63,9 @@ export function UpdateUserDialog({
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(handleSubmitData)}
+          onSubmit={handleSubmit((data) =>
+            handleSubmitData({ updateToEmail: defaultValueEmail, ...data }),
+          )}
           sx={{ mt: 5 }}
         >
           <Grid container spacing={4}>
@@ -71,7 +79,19 @@ export function UpdateUserDialog({
               id="firstName"
               type="text"
               label="Primeiro nome"
-              {...register("firstName", { value: defaultValueFirstName })}
+              {...register("firstName", {
+                value: defaultValueFirstName,
+
+                onChange: (event: ChangeEvent<HTMLInputElement>) => {
+                  const currentFieldValue = event.target.value;
+
+                  if (currentFieldValue === defaultValueFirstName) {
+                    setIsTheSameFirstNameField(true);
+                  } else {
+                    setIsTheSameFirstNameField(false);
+                  }
+                },
+              })}
             />
 
             <AppTextField
@@ -83,7 +103,19 @@ export function UpdateUserDialog({
               id="lastName"
               type="text"
               label="Segundo nome"
-              {...register("lastName", { value: defaultValueLastName })}
+              {...register("lastName", {
+                value: defaultValueLastName,
+
+                onChange: (event: ChangeEvent<HTMLInputElement>) => {
+                  const currentFieldValue = event.target.value;
+
+                  if (currentFieldValue === defaultValueLastName) {
+                    setIsTheSameLastNameField(true);
+                  } else {
+                    setIsTheSameLastNameField(false);
+                  }
+                },
+              })}
             />
 
             <AppTextField
@@ -94,7 +126,19 @@ export function UpdateUserDialog({
               id="email"
               type="email"
               label="Email"
-              {...register("email", { value: defaultValueEmail })}
+              {...register("email", {
+                value: defaultValueEmail,
+
+                onChange: (event: ChangeEvent<HTMLInputElement>) => {
+                  const currentFieldValue = event.target.value;
+
+                  if (currentFieldValue === defaultValueEmail) {
+                    setIsTheSameEmailField(true);
+                  } else {
+                    setIsTheSameEmailField(false);
+                  }
+                },
+              })}
             />
 
             <AppTextField
@@ -105,7 +149,17 @@ export function UpdateUserDialog({
               id="password"
               type="password"
               label="Nova senha"
-              {...register("password")}
+              {...register("password", {
+                onChange: (event: ChangeEvent<HTMLInputElement>) => {
+                  const currentFieldValue = event.target.value;
+
+                  if (currentFieldValue) {
+                    setPasswordFieldExists(true);
+                  } else {
+                    setPasswordFieldExists(false);
+                  }
+                },
+              })}
             />
 
             <AppTextField
@@ -125,7 +179,21 @@ export function UpdateUserDialog({
               onClick={onClickToCancel}
               text="Cancelar"
             />
-            <AppButton disabled={formSent} text="Atualizar" />
+            <AppButton
+              disabled={
+                formSent ||
+                (isTheSameFirstNameField &&
+                  isTheSameLastNameField &&
+                  isTheSameEmailField &&
+                  !passwordFieldExists) ||
+                Boolean(errors.firstName) ||
+                Boolean(errors.lastName) ||
+                Boolean(errors.email) ||
+                Boolean(errors.password) ||
+                Boolean(errors.confirmPassword)
+              }
+              text="Atualizar"
+            />
           </DialogActions>
         </Box>
       </DialogContent>
