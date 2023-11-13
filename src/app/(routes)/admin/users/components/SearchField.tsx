@@ -1,8 +1,8 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import { Control, Controller, FieldValues } from "react-hook-form";
-import { InputAdornment } from "@mui/material";
-import { PersonSearch } from "@mui/icons-material";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Clear, PersonSearch } from "@mui/icons-material";
 
 interface ISearchFieldProps<T extends FieldValues> {
   control: Control<T>;
@@ -16,6 +16,11 @@ const SearchField = React.forwardRef(function SearchField(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ref,
 ) {
+  // Integrar aq e CONFIGURAR em OUTRO Lugar !!!
+  const handleClearAndResetSearchField = () => {
+    console.log("Clicado pra LIMPAR e RESETAR !!!");
+  };
+
   return (
     <Controller
       control={control}
@@ -29,13 +34,24 @@ const SearchField = React.forwardRef(function SearchField(
           autoComplete="none"
           fullWidth
           id="search"
-          label="Search..."
+          label="Pesquisar por nome de usuário..."
           type="text"
           {...field}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <PersonSearch />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="clear and reset search field"
+                  onClick={handleClearAndResetSearchField}
+                  edge="end"
+                >
+                  <Clear />
+                </IconButton>
               </InputAdornment>
             ),
           }}
