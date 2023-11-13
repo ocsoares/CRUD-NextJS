@@ -5,22 +5,18 @@ import { IconButton, InputAdornment } from "@mui/material";
 import { Clear, PersonSearch } from "@mui/icons-material";
 
 interface ISearchFieldProps<T extends FieldValues> {
-  control: Control<T>;
-  name: string;
-  error?: boolean;
-  helperText?: string;
+  readonly control: Control<T>;
+  readonly name: string;
+  readonly error?: boolean;
+  readonly helperText?: string;
+  readonly onClickToClean: () => void;
 }
 
 const SearchField = React.forwardRef(function SearchField(
-  { control, name, error, helperText }: ISearchFieldProps<any>,
+  { control, name, error, helperText, onClickToClean }: ISearchFieldProps<any>,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ref,
 ) {
-  // Integrar aq e CONFIGURAR em OUTRO Lugar !!!
-  const handleClearAndResetSearchField = () => {
-    console.log("Clicado pra LIMPAR e RESETAR !!!");
-  };
-
   return (
     <Controller
       control={control}
@@ -47,7 +43,7 @@ const SearchField = React.forwardRef(function SearchField(
               <InputAdornment position="end">
                 <IconButton
                   aria-label="clear and reset search field"
-                  onClick={handleClearAndResetSearchField}
+                  onClick={onClickToClean}
                   edge="end"
                 >
                   <Clear />

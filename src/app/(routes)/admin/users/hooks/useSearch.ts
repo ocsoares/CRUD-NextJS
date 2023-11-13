@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodSearchSchema } from "../schemas/zodSearchSchema";
 import { ISearchData } from "../types/ISearchData";
 import { ZodSearchSchemaType } from "../types/ZodSearchSchemaType";
+import { searchUsersService } from "../services/searchUsersService";
+import { useSession } from "next-auth/react";
+import { IUser } from "../../auth/interfaces/IUser";
+import { getAllUsersService } from "../services/getAllUsersService";
 
 export const useSearch = () => {
   const [searchApiFailed, setSearchApiFailed] = useState(false);
@@ -20,17 +24,35 @@ export const useSearch = () => {
     resolver: zodResolver(zodSearchSchema),
   });
 
-  const handleSubmitData = async ({ searchText }: ISearchData) => {
+  const { data: session } = useSession();
+
+  const handleSubmitData = async ({
+    searchText,
+  }: ISearchData): Promise<IUser[] | undefined> => {
     try {
-      console.log("searchText:", searchText);
+      if (session) {
+        const usersFound = await searchUsersService(session, searchText);
 
-      setSearchApiFailed(false);
-      setSearchApiFailedMessage("");
+        setSearchApiFailed(false);
+        setSearchApiFailedMessage("");
 
-      reset();
+        reset();
+
+        return usersFound;
+      }
     } catch (error) {
       setSearchApiFailed(true);
       setSearchApiFailedMessage((error as Error).message);
+    }
+  };
+
+  const handleClickToClean = async (): Promise<IUser[] | undefined> => {
+    if (session) {
+      const users = await getAllUsersService(session?.user.jwt);
+
+      reset();
+
+      return users;
     }
   };
 
@@ -40,6 +62,7 @@ export const useSearch = () => {
     control,
     errors,
     handleSubmitData,
+    handleClickToClean,
     searchApiFailed,
     searchApiFailedMessage,
   };

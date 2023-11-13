@@ -23,6 +23,7 @@ export function AdminUserActions() {
     control,
     errors,
     handleSubmitData,
+    handleClickToClean,
     searchApiFailed,
     searchApiFailedMessage,
   } = useSearch();
@@ -63,7 +64,17 @@ export function AdminUserActions() {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(handleSubmitData)}
+          onSubmit={handleSubmit((data) =>
+            handleSubmitData(data).then((usersFound) => {
+              if (usersFound) {
+                if (usersFound.length > 0) {
+                  setAllUsers(usersFound);
+                } else {
+                  setAllUsers([]);
+                }
+              }
+            }),
+          )}
           display="flex"
           alignItems="center"
           flex="1"
@@ -72,6 +83,15 @@ export function AdminUserActions() {
             control={control}
             error={errors.searchText || searchApiFailed ? true : false}
             helperText={errors.searchText?.message || searchApiFailedMessage}
+            onClickToClean={() =>
+              handleClickToClean().then((users) => {
+                if (users) {
+                  setAllUsers(users);
+                } else {
+                  setAllUsers([]);
+                }
+              })
+            }
             {...register("searchText")}
           />
         </Box>
