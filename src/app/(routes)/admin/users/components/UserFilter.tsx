@@ -7,7 +7,12 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
-export function UserFilter() {
+
+interface IUserFilterProps {
+  readonly onClickToSort: (order: "asc" | "desc") => Promise<void>;
+}
+
+export function UserFilter({ onClickToSort }: IUserFilterProps) {
   const [popoverAnchorEl, setPopoverSetAnchorEl] = useState<HTMLElement | null>(
     null,
   );
@@ -21,15 +26,8 @@ export function UserFilter() {
     setPopoverSetAnchorEl(null);
   };
 
-  const handleSort = (order: "asc" | "desc") => {
+  const handleSort = async (order: "asc" | "desc") => {
     setSortingOrder(order);
-
-    // Integrar com API !!!
-    if (order === "asc") {
-      console.log("É ASC !!!");
-    } else {
-      console.log("É DESC !!!");
-    }
 
     handleClose();
   };
@@ -60,10 +58,22 @@ export function UserFilter() {
         onClose={handleClose}
       >
         <List>
-          <ListItemButton onClick={() => handleSort("desc")}>
+          <ListItemButton
+            onClick={() =>
+              handleSort("asc").then(() => {
+                onClickToSort("asc");
+              })
+            }
+          >
             <ListItemText primary="Usuários mais novos" />
           </ListItemButton>
-          <ListItemButton onClick={() => handleSort("asc")}>
+          <ListItemButton
+            onClick={() =>
+              handleSort("desc").then(() => {
+                onClickToSort("desc");
+              })
+            }
+          >
             <ListItemText primary="Usuários mais antigos" />
           </ListItemButton>
         </List>

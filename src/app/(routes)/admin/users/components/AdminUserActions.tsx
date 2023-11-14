@@ -13,6 +13,7 @@ import { useModal } from "../hooks/useModal";
 import { useSearch } from "../hooks/useSearch";
 import { useSession } from "next-auth/react";
 import { usePagination } from "../hooks/usePagination";
+import { useUserFilter } from "../hooks/useUserFilter";
 
 export function AdminUserActions() {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
@@ -30,6 +31,8 @@ export function AdminUserActions() {
 
   const { currentPage, startIndex, endIndex, handlePageChange } =
     usePagination();
+
+  const { handleClickToSort } = useUserFilter();
 
   const { data: session } = useSession();
 
@@ -49,7 +52,7 @@ export function AdminUserActions() {
     };
 
     getAllUsers();
-  }, [session, currentPage]);
+  }, [session]);
 
   return (
     <>
@@ -96,7 +99,17 @@ export function AdminUserActions() {
           />
         </Box>
         <Box marginRight={4.5}>
-          <UserFilter />
+          <UserFilter
+            onClickToSort={(order) =>
+              handleClickToSort(order).then((users) => {
+                if (users) {
+                  setAllUsers(users);
+                } else {
+                  setAllUsers([]);
+                }
+              })
+            }
+          />
         </Box>
       </Box>
 
