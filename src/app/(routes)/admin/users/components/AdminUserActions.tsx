@@ -32,7 +32,7 @@ export function AdminUserActions() {
   const { currentPage, startIndex, endIndex, handlePageChange } =
     usePagination();
 
-  const { handleClickToSort } = useUserFilter();
+  const { handleClickToSort, handleClickToSearchByDate } = useUserFilter();
 
   const { data: session } = useSession();
 
@@ -113,7 +113,17 @@ export function AdminUserActions() {
         </Box>
       </Box>
 
-      <DateRangePicker />
+      <DateRangePicker
+        onClickToSearchByDate={(startDate, endDate) =>
+          handleClickToSearchByDate(startDate, endDate).then((users) => {
+            if (users) {
+              setAllUsers(users);
+            } else {
+              setAllUsers([]);
+            }
+          })
+        }
+      />
 
       {/* Adicionar um Skeleton e ver o Estado do Carregamento da variável async "allUsers" !!! */}
       {allUsers.length === 0 ? (

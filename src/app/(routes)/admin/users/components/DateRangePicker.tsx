@@ -5,7 +5,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
 import { ArrowRightAlt } from "@mui/icons-material";
 
-export function DateRangePicker() {
+interface IDateRangePickerProps {
+  readonly onClickToSearchByDate: (
+    startDate: Dayjs,
+    endDate: Dayjs,
+  ) => Promise<void>;
+}
+
+export function DateRangePicker({
+  onClickToSearchByDate,
+}: IDateRangePickerProps) {
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
@@ -20,13 +29,6 @@ export function DateRangePicker() {
   const handleClear = () => {
     setStartDate(null);
     setEndDate(null);
-  };
-
-  const handleApply = () => {
-    console.log("Data de início:", startDate);
-    console.log("Data de término:", endDate);
-
-    handleClear();
   };
 
   return (
@@ -69,7 +71,11 @@ export function DateRangePicker() {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleApply}
+            onClick={() =>
+              onClickToSearchByDate(startDate!, endDate!).then(() => {
+                handleClear();
+              })
+            }
             disabled={
               !startDate ||
               !endDate ||
