@@ -101,7 +101,7 @@ export function AdminUserActions() {
         <Box marginRight={4.5}>
           <UserFilter
             onClickToSort={(order) =>
-              handleClickToSort(order).then((users) => {
+              handleClickToSort(allUsers, order).then((users) => {
                 if (users) {
                   setAllUsers(users);
                 } else {

@@ -1,45 +1,25 @@
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { IUser } from "../../auth/interfaces/IUser";
-import { searchUsersByOrderService } from "../services/searchUsersByOrderService";
 
 export const useUserFilter = () => {
-  const [sortApiFailed, setSortApiFailed] = useState(false);
-  const [sortApiFailedMessage, setSortApiFailedMessage] = useState("");
-
-  const { data: session } = useSession();
-
   const handleClickToSort = async (
+    allUsers: IUser[],
     order: "asc" | "desc",
-  ): Promise<IUser[] | undefined> => {
-    try {
-      if (session) {
-        if (order === "asc") {
-          const usersFoundByAscOrder = await searchUsersByOrderService(
-            session,
-            order,
-          );
+  ): Promise<IUser[]> => {
+    const sortedUsers = [...allUsers];
 
-          return usersFoundByAscOrder;
-        }
+    sortedUsers.sort((userA, userB) => {
+      const dateA = userA.createdAt ? new Date(userA.createdAt) : new Date(0);
+      const dateB = userB.createdAt ? new Date(userB.createdAt) : new Date(0);
 
-        if (order === "desc") {
-          const usersFoundByDescOrder = await searchUsersByOrderService(
-            session,
-            order,
-          );
-
-          return usersFoundByDescOrder;
-        }
-
-        setSortApiFailed(false);
-        setSortApiFailedMessage("");
+      if (order === "asc") {
+        return dateA.getTime() - dateB.getTime();
+      } else {
+        return dateB.getTime() - dateA.getTime();
       }
-    } catch (error) {
-      setSortApiFailed(true);
-      setSortApiFailedMessage((error as Error).message);
-    }
+    });
+
+    return sortedUsers;
   };
 
-  return { sortApiFailed, sortApiFailedMessage, handleClickToSort };
+  return { handleClickToSort };
 };
