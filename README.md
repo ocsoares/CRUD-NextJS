@@ -1,6 +1,6 @@
 # **CRUD NextJS**
 
-🚀 https://crud-next-js-henna.vercel.app 🚀
+Deploy: https://crud-next-js-henna.vercel.app 🚀
 
 API Backend: https://github.com/ocsoares/CRUD-NextJS-API
 
